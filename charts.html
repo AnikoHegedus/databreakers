@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Charts</title>
+  
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="http://code.highcharts.com/modules/exporting.js"></script>
+  <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+  <link rel="stylesheet" type="text/css" href="charts.css">
+</head>
+
+
+
+<body>
+  <div id="container" style="width:100%; height:400px;"></div>
+<div class="forms">
+<form class="sunshine">
+Hours of sunshine per year by country<br>
+<select placeholder="Choose a Country..." class="chosen-select sunshine" multiple style="width:350px;" tabindex="4">
+    <option type="checkbox" value="Qatar" selected >Qatar</option>
+    <option type="checkbox" value="Mongolia">Mongolia</option>
+    <option type="checkbox" value="Sweden">Sweden</option>
+    <option type="checkbox" value="Mozambique">Mozambique</option> 
+</select>
+</form>
+
+<form class="unemployment required">
+Unemployment rate in percentage by country<br>
+<select placeholder="Choose a Country..." class="chosen-select unemployment" multiple style="width:350px;" tabindex="4">
+    <option type="checkbox" value="Qatar" selected>Qatar</option>
+    <option type="checkbox" value="Mongolia">Mongolia</option>
+    <option type="checkbox" value="Sweden">Sweden</option>
+    <option type="checkbox" value="Mozambique">Mozambique</option> 
+</select>
+</form>
+
+ <form>
+  How many axes do you want to see on the chart? <br>
+  <label for="one">One</label>
+  <input type="radio" name="axes" class="nr_axes" id="one" value="one"><br>
+  <label for="two">Two</label>
+  <input type="radio" name="axes" class="nr_axes" id="two" value="two" checked><br>
+</form> 
+</div>
+
+<script type="text/javascript">
+$(".chosen-select").chosen();
+  </script>
+<script src="charts.js"></script>
+</body>
+</html>

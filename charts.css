@@ -1,0 +1,26 @@
+#container{
+    margin: 100 20 50 20;
+}
+
+form{
+    margin: 30px;
+}
+
+.forms{
+    display: flex;
+}
+
+.first .second{
+    display: flex;
+    align-content: space-around;
+}
+
+/*.chosen-container .chosen-choices span {
+    background-color: red;
+    color: white;
+}*/
+
+/*.chosen-container .chosen-choices li.search-choice {
+    background: red;
+    color:white;
+}*/
