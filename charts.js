@@ -40,11 +40,11 @@ series: []
 
 // defining the databases
 var database = [
-    {name: "Number of existing customers", value: "Number of existing customers", data: [12089, 12075, 13581, 13000, 12090, 12980, 12440, 12016], color: '#bb5578', yAxis: "existing_customers"},
-    {name: "Turnover in thousands", value: "Turnover in thousands", data: [1648, 1702, 1620, 1752, 1714, 1699, 1705, 1795], color: '#b9a5d1', yAxis: "turnover"},
-    {name: "Number of new customers", value: "Number of new customers", data: [289, 275, 281, 300, 290, 298, 244, 216], color: '#bbe2ed', yAxis: "new_customers"},
-    {name: "Number of employees", value: "Number of employees", data: [34, 37, 30, 45, 42, 44,  47, 50], color: '#e1a12b', yAxis: "employees"},
-    {name: "Value of export in millions", value: "Value of export in millions", data: [1.2, 0.8, 1.3, 1.4, 0.9, 0.75, 0.6, 0.88], color: '#bde074', yAxis: "export"},
+    {name: "Number of existing customers", value: "Number of existing customers", data: [12089, 12075, 13581, 13000, 12090, 12980, 12440, 12016], color: '#7AC36A', yAxis: "existing_customers"},
+    {name: "Turnover in thousands", value: "Turnover in thousands", data: [1648, 1702, 1620, 1752, 1714, 1699, 1705, 1795], color: '#9E67AB', yAxis: "turnover"},
+    {name: "Number of new customers", value: "Number of new customers", data: [289, 275, 281, 300, 290, 298, 244, 216], color: '#5A9BD4', yAxis: "new_customers"},
+    {name: "Number of employees", value: "Number of employees", data: [34, 37, 30, 45, 42, 44,  47, 50], color: '#FAA75B', yAxis: "employees"},
+    {name: "Value of export in millions", value: "Value of export in millions", data: [1.2, 0.8, 1.3, 1.4, 0.9, 0.75, 0.6, 0.88], color: '#CE7058', yAxis: "export"},
 ];
 
 //check the requested number of axes
