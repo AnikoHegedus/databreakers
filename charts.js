@@ -4,7 +4,7 @@ var data_deselected;
 var axes;
 var one_axis = false;
 var all_data_chosen;
-var yAxis;
+
 
 // defining the chart
 var chart = Highcharts.chart('container', {
