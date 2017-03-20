@@ -16,39 +16,32 @@
 
 <body>
   <div id="container" style="width:100%; height:400px;"></div>
-<div class="forms">
-<form class="sunshine">
-Hours of sunshine per year by country<br>
-<select placeholder="Choose a Country..." class="chosen-select sunshine" multiple style="width:350px;" tabindex="4">
-    <option type="checkbox" value="Qatar" selected >Qatar</option>
-    <option type="checkbox" value="Mongolia">Mongolia</option>
-    <option type="checkbox" value="Sweden">Sweden</option>
-    <option type="checkbox" value="Mozambique">Mozambique</option> 
+  
+<div class="form">
+<form class="statistics">
+Statistics of company X<br>
+<select placeholder="Choose data" class="chosen-select statistics" multiple style="width:350px;" tabindex="6">
+    <option type="checkbox" value="Number of existing customers" selected>Number of existing customers</option> 
+    <option type="checkbox" value="Turnover in thousands">Turnover in thousands</option>
+    <option type="checkbox" value="Number of new customers">Number of new customers</option>
+    <option type="checkbox" value="Number of employees">Number of employees</option>
+    <option type="checkbox" value="Value of export in millions">Value of export in millions</option>
 </select>
 </form>
 
-<form class="unemployment required">
-Unemployment rate in percentage by country<br>
-<select placeholder="Choose a Country..." class="chosen-select unemployment" multiple style="width:350px;" tabindex="4">
-    <option type="checkbox" value="Qatar" selected>Qatar</option>
-    <option type="checkbox" value="Mongolia">Mongolia</option>
-    <option type="checkbox" value="Sweden">Sweden</option>
-    <option type="checkbox" value="Mozambique">Mozambique</option> 
-</select>
-</form>
-
- <form>
-  How many axes do you want to see on the chart? <br>
-  <label for="one">One</label>
-  <input type="radio" name="axes" class="nr_axes" id="one" value="one"><br>
-  <label for="two">Two</label>
-  <input type="radio" name="axes" class="nr_axes" id="two" value="two" checked><br>
+<form>
+  All metrics on same axis <br>
+  <label for="yes">Yes</label>
+  <input type="radio" name="axes" class="nr_axes" id="yes" value="yes"><br>
+  <label for="no">No</label>
+  <input type="radio" name="axes" class="nr_axes" id="no" value="no" checked><br>
 </form> 
 </div>
 
+
 <script type="text/javascript">
 $(".chosen-select").chosen();
-  </script>
+</script>
 <script src="charts.js"></script>
 </body>
 </html>

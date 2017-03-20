@@ -1,11 +1,10 @@
 // declaring variables
-var country_selected_sun;
-var country_deselected_sun;
-var country_selected_unempl;
-var country_deselected_unempl;
-var all_countries_of_unempl = ["Qatar"]; //data needed for changing axes
-var axes = "two";
-var change;
+var data_selected;
+var data_deselected;
+var axes;
+var one_axis = false;
+var all_data_chosen;
+var yAxis;
 
 // defining the chart
 var chart = Highcharts.chart('container', {
@@ -17,7 +16,7 @@ chart: {
     shared: true,
 },
 title: {
-    text: 'Demo statistics'
+    text: 'Demo statistics on company X'
 },
 subtitle: {
     text: 'Source: invented :)'
@@ -25,38 +24,8 @@ subtitle: {
 xAxis: [{
     categories: ["2009", "2010","2011", "2012", "2013", "2014", "2015", "2016"]
 }],
-yAxis: [{ // Primary yAxis
-    title: {
-        text: 'Unemployment rate in percentage',
-        style: {
-            color: Highcharts.getOptions().colors[0]
-        }
-    },
-    labels: {
-        format: '{value}%',
-        style: {
-            color: Highcharts.getOptions().colors[0]
-        }
-    },
-    opposite: true,
+yAxis: [],
 
-    }, { // Secondary yAxis
-        id: "sunshine",
-        yAxis: 1,
-        gridLineWidth: 0,
-        title: {
-            text: 'Hours of sunshine per year',
-            style: {
-                color: Highcharts.getOptions().colors[1]
-            }
-        },
-        labels: {
-            format: '{value} hours/year',
-            style: {
-                color: Highcharts.getOptions().colors[1]
-            }
-        }
-    },],
 legend: {
     layout: 'vertical',
     align: 'left',
@@ -65,230 +34,233 @@ legend: {
     itemDistance: 50,
     backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
 },
-series: [{
-    yAxis: 1,
-    name: 'Hours of sunshine per year - Qatar',
-    type: 'area',
-    data: [3650, 3217, 3000, 3840, 3870, 3990, 4001, 3710],
-    color: '#e1a12b'
-}, {
-    name: 'Unemployment rate in percentage - Qatar',
-    type: 'spline',
-    data: [0.4, 0.2, 0.5, 0.8, 0.3, 0.9, 0.75, 0.62],
-    color: '#000'
-}]
+series: []
 });
 
 
 // defining the databases
-var database1 = [
-    {name: "Qatar", value: "Hours of sunshine per year - Qatar", data: [3650, 3217, 3000, 3840, 3870, 3990, 4001, 3710], color: '#e1a12b'},
-    {name: "Mongolia", value: "Hours of sunshine per year - Mongolia", data: [2501, 2712, 2930, 2412, 2600, 2603, 2510, 2530], color: '#bde074'},
-    {name: 'Sweden', value: "Hours of sunshine per year - Sweden", data: [1648, 1702, 1620, 1752, 1714, 1699, 1705, 1795], color: '#b9a5d1'},
-    {name: 'Mozambique', value: "Hours of sunshine per year - Mozambique", data: [2890, 2750, 2810, 3002, 2901, 2980, 2444, 2165], color: '#bbe2ed'}
+var database = [
+    {name: "Number of existing customers", value: "Number of existing customers", data: [12089, 12075, 13581, 13000, 12090, 12980, 12440, 12016], color: '#bb5578', yAxis: "existing_customers"},
+    {name: "Turnover in thousands", value: "Turnover in thousands", data: [1648, 1702, 1620, 1752, 1714, 1699, 1705, 1795], color: '#b9a5d1', yAxis: "turnover"},
+    {name: "Number of new customers", value: "Number of new customers", data: [289, 275, 281, 300, 290, 298, 244, 216], color: '#bbe2ed', yAxis: "new_customers"},
+    {name: "Number of employees", value: "Number of employees", data: [34, 37, 30, 45, 42, 44,  47, 50], color: '#e1a12b', yAxis: "employees"},
+    {name: "Value of export in millions", value: "Value of export in millions", data: [1.2, 0.8, 1.3, 1.4, 0.9, 0.75, 0.6, 0.88], color: '#bde074', yAxis: "export"},
 ];
 
-var database2 = [
-    {name: "Qatar", value: "Unemployment rate in percentage - Qatar",  data: [0.4, 0.2, 0.5, 0.8, 0.3, 0.9, 0.75, 0.62], color: '#000'},
-    {name: "Mongolia", value: "Unemployment rate in percentage - Mongolia", data: [7.7, 6.0, 7.2, 8.1, 7.9, 7.5, 7.5, 8.2], color: '#10b012'},
-    {name: 'Sweden', value: "Unemployment rate in percentage - Sweden", data: [5, 6.6, 5.2, 7.4, 6.5, 6.2, 6.0, 5.7], color: '#d81525'},
-    {name: 'Mozambique', value: "Unemployment rate in percentage - Mozambique", data: [17.2, 15.4, 16.4, 19.2, 13.4, 14.2, 15.1, 15.9], color: '#3D96AE'}
-];
-
-
-// declaring functions to add and to remove data from chart
-function add_to_sun(country_selected_sun, yAxis){
-    for(var i = 0; i < database1.length; i++){
-        
-        // find the right color for the buttons
-        $('.sunshine').find('.search-choice').each(function() {
-            if ($(this).text() === database1[i].name) {
-                $(this).css({"background": database1[i].color, "color": "black"});
-            }
-        })
-        //add data to chart
-        if(country_selected_sun == database1[i].name){
-           chart.addSeries(
-            {
-                yAxis: yAxis, 
-                name: database1[i].value,
-                type: 'area',
-                data: database1[i].data,
-                color: database1[i].color
-            }); // addSeries
-        } //end add if 
-    }// end for loop
-} // end country_to_sun function
-
-function remove_from_sun(country_deselected_sun, change){
-     for (var j = 0; j < chart.series.length; j++){
-         if (change){
-             var series_name = "Unemployment rate in percentage - " + country_deselected_sun;
-         } else if (!change){
-             var series_name = "Hours of sunshine per year - " + country_deselected_sun;
-         }
-            if (series_name == chart.series[j].name){
-                index = j;
-                chart.series[index].remove();
-            } // end series name 1 aka hours of sunshine
-     } // end for j
-  } // end remove hours of sunshine
-
-
-
-function add_to_unempl(country_selected_unempl, yAxis){
-    for(var i = 0; i < database2.length; i++){
-            // find the right color for the buttons
-        $('.unemployment').find('.search-choice').each(function() {
-            if ($(this).text() === database2[i].name) {
-                $(this).css({"background": database2[i].color, "color": "white"});
-                }
-        })
-            //add data to chart
-        if(country_selected_unempl == database2[i].name){
-            chart.addSeries(
-                   {
-                   yAxis: yAxis,
-                   name: database2[i].value,
-                   type: 'spline',
-                   data: database2[i].data,
-                   color: database2[i].color 
-            }); // end add series
-        } //end add if 
-    }// end for loop
-}
-
-function remove_from_unempl(country_deselected_unempl){
-    var series_name2 = "Unemployment rate in percentage - " + country_deselected_unempl;
-        for (var k = 0; k < chart.series.length; k++){
-            if (series_name2 == chart.series[k].name){
-                index2 = k;
-                chart.series[index2].remove();
-            } // end series name 2 aka unemployement rate
-        } // end for k
-}
-
-// if country is chosen from "sunshine oprtion"
-$('.sunshine').on('change', function(evt, params) {
-    
-    // hours of sunshine of chosen country add to chart
-    if(params.selected){
-        country_selected_sun = params.selected;
-        add_to_sun(country_selected_sun, 1);
-    // hours of sunshine of chosen country remove from chart
-    } else if(params.deselected){
-        country_deselected_sun = params.deselected;
-        remove_from_sun(country_deselected_sun, change=false);
-    }
-  return false;
-}); // end click on sunshine
-
-// if country is chosen from "unemployment oprtion"
-$('.unemployment').on('change', function(evt, params) {
-    all_countries_of_unempl = $(this).val(); //data needed for changing axes
-    
-    // unemployement rate of chosen country add to chart
-    if(params.selected){
-        country_selected_unempl = params.selected;
-        if (axes == "one"){
-            add_to_unempl(country_selected_unempl, 1);    
-        } else if (axes == "two"){
-            add_to_unempl(country_selected_unempl, 0);
-        }
-        
-        //unemployement rate of chosen country remove from chart
-    } else if(params.deselected){
-        country_deselected_unempl = params.deselected;
-        remove_from_unempl(country_deselected_unempl);
-    } // end remove unemployement rate
-    return false;
-}); // end click unemployement rate
-
-
-// check if the user wants to see the data on one or two axes
-$(".nr_axes").click(function () {
-    
+//check the requested number of axes
+$(".nr_axes").on("change", function(){
     axes = $('input[name=axes]:checked').val();
     
     //if one axis is chosen
-    if(axes=="one"){
-        // see which countries are currently chosen
-        for(var i = 0; i< all_countries_of_unempl.length; i++){
-            for(var j=0; j<database1.length; j++){
-                if (all_countries_of_unempl[i] == database1[j].name){
-                    remove_from_unempl(all_countries_of_unempl[i]);
-                    add_to_unempl(all_countries_of_unempl[i],1);
-                } // end if country found
-            } // end for j
-        } // end for i
-        // update both axes accordingly
-        chart.yAxis[0].update({
-            labels: {
-                enabled: false
-            },
-            title: {
-                text: null
-            },
-        }); 
+    if(axes =="yes"){
+        // remove all data from the different axes     
+        remove_all_data();
+        // add new, common axis
+        chart.addAxis({
+                id: "oneaxis",
+        }); // end add new axis
         
-        // chart.yAxis[0].update
-        chart.yAxis[1].update({
+        // add all chosen data to the common axis
+        for(var i = 0; i< all_data_chosen.length; i++){
+            add_to_one_axis(all_data_chosen[i]);
+        }
+        // set one_axis to true
+        one_axis = true;
+    
+    // if two axes are chosen
+    } else if (axes =="no"){
+        // remove all date from the common axis
+        remove_all_data();
+       // remove the common axis
+        chart.get("oneaxis").remove();
+        // add all data to their own axes
+        for(var i = 0; i< all_data_chosen.length; i++){
+            add_to_more_axes(all_data_chosen[i]);
+        }
+        // set one_axis to true
+        one_axis = false;
+        // hide axes if there are more than two of them
+        hide_axes_if_more_than_two();
+    }
+   
+});
+
+// add data to one axis
+function add_to_one_axis(data_selected){
+    for(var i = 0; i < database.length; i++){
+        
+        // find the right color for the buttons
+        $('.statistics').find('.search-choice').each(function() {
+            if ($(this).text() === database[i].name) {
+                $(this).css({"background": database[i].color, "color": "black"});
+            }
+        })
+        
+        //add data the chosen data to chart 
+        if(data_selected == database[i].name){
+             chart.addSeries(
+                {
+                    yAxis: "oneaxis", 
+                    name: database[i].value,
+                    type: 'spline',
+                    data: database[i].data,
+                    color: database[i].color,        
+                });            
+            }
+    } // end finding chosen data in database
+    // change tooltip
+    chart.update({
+                tooltip: {
+                    shared: false
+                }
+    }); // end chart update
+} //add_to_one_axis
+
+// function for adding data to more axes
+function add_to_more_axes(data_selected){
+    // go through the database
+    for(var i = 0; i < database.length; i++){
+        
+        // find the right color for the buttons
+        $('.statistics').find('.search-choice').each(function() {
+            if ($(this).text() === database[i].name) {
+                $(this).css({"background": database[i].color, "color": "black"});
+            }
+        })
+        
+        //look for chosen data
+        if(data_selected == database[i].name){
+            // add new axis to each series
+            chart.addAxis({
+                id: database[i].yAxis,
                 labels: {
-                    enabled: true,
-                    format: '{value}',
+                    enabled: "{value}"
                 },
                 title: {
-                    text: 'Unemployment rate in percentage' + "<br>" + 'Hours of sunshine per year',
-                    margin: 30,
-                    style: {
-                    color: Highcharts.getOptions().colors[1]
-                    },
-                }, 
-        }); // end chart.yAxis[1].update
-        // update the tooltip on the entire chart
-        chart.update({
-             tooltip: {
-                shared: false
-            }
-        }); // end chart.update
-    ////if two axes are chosen
-    }else if(axes=="two"){
-        // see which countries are currently chosen
-        for(var i = 0; i< all_countries_of_unempl.length; i++){
-            for(var j=0; j<database1.length; j++){
-                if (all_countries_of_unempl[i] == database1[j].name){
-                    remove_from_sun(all_countries_of_unempl[i], change=true);
-                    add_to_unempl(all_countries_of_unempl[i],0);
-                } // end if country is found
-            } // end for j
-        } // end for i
-        // update both axes accordingly
-        chart.yAxis[0].update({
-            labels: {
-                enabled: true,
-                format: '{value} %',
-            },
-            title: {
-                text: "Unemployment rate in percentage"
-            },             
-        }); // chart.yAxis[0].update
-        chart.yAxis[1].update({
-            labels: {
-                enabled: true,
-                format: '{value} hours/year',
-            },
-            title: {
-                text: 'Hours of sunshine per year',
-                style: {
-                color: Highcharts.getOptions().colors[1]
+                    text: database[i].name
                 },
-            },
-        }); // end chart.yAxis[1].update
-        // update the tooltip on the entire chart
-        chart.update({
-             tooltip: {
-                shared: true
-            }
-        }); //end chart.update
-    } // end else if ("two")
-}); // end nr_axes clicked
+            }); // end add new axis to each series
+
+            // add data to its axis
+             chart.addSeries({
+                yAxis: database[i].yAxis, 
+                name: database[i].value,
+                type: 'spline',
+                data: database[i].data,
+                color: database[i].color,
+            }); // addSeries
+        } //end if data found
+    }// end for loop
+
+    // if there are more than two axis, hide them
+    if (!one_axis){
+        hide_axes_if_more_than_two();
+    } 
+    // update tooltip
+    chart.update({
+        tooltip: {
+            shared: true
+        }
+    }); // end update tooptip
+} // end data_to_chart function
+ 
+
+// remove single data from chart
+function remove_single_data_from_chart(data_deselected){
+    // find the data to be removed
+    series_length = chart.series.length;
+     for (var j = 0; j < chart.series.length; j++){
+            if (data_deselected == chart.series[j].name){
+                chart.series[j].remove(); // remove the right series
+            } // end if data found
+    } // end going through chart.series
+
+    // if there are more axes remove the axes too
+    if(!one_axis){
+        for(var i = 0; i<database.length; i++){
+            // find the right axis
+            if (data_deselected == database[i].name){
+                    chart.get(database[i].yAxis).remove();                
+            } // end finding the right axes
+        } // end for 
+    } // end if !one_axis
+  } // end remove single data
+
+  // remove all data from chart
+  function remove_all_data(){
+       var seriesLength = chart.series.length;
+        for(var i = seriesLength -1; i > -1; i--) {
+            chart.series[i].remove();
+        }
+        // if more than one axis, remove the axis too
+        if(!one_axis){
+            for(var i = 0; i<database.length; i++){
+                for(var j = 0; j< all_data_chosen.length; j++){
+                    if (all_data_chosen[j] == database[i].name){
+                        chart.get(database[i].yAxis).remove();                
+                    } // end if data found
+                } // end for j
+            } // end for i 
+        } // end if !one_axis
+  } // end remove_all_data
+
+// if series are shown on different axis, hide axis if there are more than two
+function hide_axes_if_more_than_two(){
+    if (chart.series.length > 2){
+        for(var j = 0; j<chart.series.length; j++){ // find which axis to hide
+            chart.series[j].yAxis.update({
+                labels: {
+                    enabled: false
+                },
+                title: {
+                    text: null
+                }
+            }); // end hide found axes
+        } // end finding axes
+   } // end if chart.series.length > 2
+} // hide_axes_if_more_than_two
+
+// if series are shown on different axis, show axis if there are less than two
+function show_if_less_than_two(){
+    if (chart.series.length <= 2){
+       for(var j = 0; j<chart.series.length; j++){ // find which axis to show
+            chart.series[j].yAxis.update({
+                labels: {
+                    enabled: true
+                },
+                title: {
+                    text: chart.series[j].name
+                }
+            });// end show found axes
+        }// end finding axes
+    } // end if chart.series.length <= 2
+} // show_if_less_than_two
+
+
+// clicking on chosing the data
+$('.statistics').on('change', function(evt, params) {
+    all_data_chosen = $(this).val();
+   
+    // data chosen to add to chart
+    if(params.selected){
+        if(one_axis){
+            add_to_one_axis(params.selected);
+        } else if(!one_axis){
+            add_to_more_axes(params.selected)
+        }
+    // data chosen to remove from chart
+    }else if(params.deselected){
+        remove_single_data_from_chart(params.deselected);
+        if (!one_axis){
+            show_if_less_than_two();
+        }
+    }
+    return false;
+});
+
+
+// start with one data
+$( document ).ready(function() {
+    add_to_more_axes("Number of existing customers");
+
+});
